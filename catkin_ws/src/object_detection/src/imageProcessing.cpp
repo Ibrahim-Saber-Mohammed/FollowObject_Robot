@@ -114,7 +114,8 @@ public:
     cv::Scalar upperbound(hsv_color_[0] + tolerance_,
                           hsv_color_[1] + tolerance_,
                           hsv_color_[2] + tolerance_);
-
+    // cv::Scalar lower(82,91,102), upper(124,153,235)
+      
     // Ensure HSV values are within valid ranges
     lowerbound[0] = std::max(0.0, std::min(179.0, lowerbound[0]));
     lowerbound[1] = std::max(0.0, std::min(255.0, lowerbound[1]));
