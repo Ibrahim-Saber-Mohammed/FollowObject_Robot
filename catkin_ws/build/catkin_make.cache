@@ -1,0 +1,2 @@
+object_detection:rover_robot
+-DCATKIN_DEVEL_PREFIX=/home/robond/Desktop/DetectAndFollow/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/robond/Desktop/DetectAndFollow/catkin_ws/install -G Unix Makefiles

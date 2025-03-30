@@ -1,0 +1,8 @@
+prefix=/home/robond/Desktop/DetectAndFollow/catkin_ws/devel
+
+Name: rover_robot
+Description: Description of rover_robot
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
