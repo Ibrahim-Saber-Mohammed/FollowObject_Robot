@@ -73,6 +73,7 @@ coordinates, radius) as ROS messages.
 */
 
 class ImageProcessing {
+public:
   ImageProcessing() {
     this->ImageSub = n.subscribe("/camera/rgb/image_raw", 10,
                                  &ImageProcessing::receiveImageCallback, this);
@@ -107,8 +108,20 @@ class ImageProcessing {
     cv::cvtColor(image, Img_hsv, cv::COLOR_BGR2HSV);
 
     // Detect the object based on HSV Range Values
-    cv::Scalar lowerbound(160, 160, 160);
-    cv::Scalar upperbound(200, 200, 200);
+    cv::Scalar lowerbound(hsv_color_[0] - tolerance_,
+                          hsv_color_[1] - tolerance_,
+                          hsv_color_[2] - tolerance_);
+    cv::Scalar upperbound(hsv_color_[0] + tolerance_,
+                          hsv_color_[1] + tolerance_,
+                          hsv_color_[2] + tolerance_);
+
+    // Ensure HSV values are within valid ranges
+    lowerbound[0] = std::max(0.0, std::min(179.0, lowerbound[0]));
+    lowerbound[1] = std::max(0.0, std::min(255.0, lowerbound[1]));
+    lowerbound[2] = std::max(0.0, std::min(255.0, lowerbound[2]));
+    upperbound[0] = std::max(0.0, std::min(179.0, upperbound[0]));
+    upperbound[1] = std::max(0.0, std::min(255.0, upperbound[1]));
+    upperbound[2] = std::max(0.0, std::min(255.0, upperbound[2]));
 
     // Get the Mask based on the lower and upper bound (all the pixels in the
     // range will be 1 others eill be 0)
@@ -169,6 +182,7 @@ private:
   cv::Vec3i hsv_color_;
   bool color_selected_ = false;
   cv::Mat image_;
+  int tolerance_{20};
 };
 int main(int argc, char **argv) {
   ros::init(argc, argv, "image_processing");
